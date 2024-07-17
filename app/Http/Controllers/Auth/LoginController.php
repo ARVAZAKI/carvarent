@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -12,27 +13,43 @@ class LoginController extends Controller
         return view('auth.login');
     }
     
-    public function loginAuth(Request $request){
-        $credentials = $request->validate([
-            'email' => ['required','email'],
-            'password' => ['required'],
-        ]);
-        if(Auth::attempt($credentials)){
-            if(Auth::user()->role == 'admin'){
+    public function loginAuth(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => ['required','email'],
+        'password' => ['required'],
+    ]);
+
+    try {
+        if (Auth::attempt($credentials)) {
+            if (Auth::user()->role == 'admin') {
+                Log::info('Admin logged in.', ['email' => $credentials['email']]);
                 return redirect()->route('admin.dashboard');
-            }else if(Auth::user()->role == 'approver'){
+            } else if (Auth::user()->role == 'approver') {
+                Log::info('Approver logged in.', ['email' => $credentials['email']]);
                 dd('hai');
             }
+        } else {
+            Log::warning('Login failed.', ['email' => $credentials['email']]);
         }
-        return back()->withErrors([
-            'email' => 'Email atau Password salah...',
-        ])->onlyInput('email');
+    } catch (\Exception $e) {
+        Log::error('Error login.', ['error' => $e->getMessage()]);
     }
 
+    return back()->withErrors([
+        'email' => 'Email atau Password salah...',
+    ])->onlyInput('email');
+}
+
     public function logout(Request $request){
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/login');
+        try {
+            Log::info('User logged out.', ['email' => Auth::user()->email]);
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/login');
+        } catch (\Exception $e) {
+            Log::error('Error logout.', ['error' => $e->getMessage()]);
+        }
     }
 }

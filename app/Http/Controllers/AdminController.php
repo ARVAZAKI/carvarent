@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Driver;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -21,6 +22,12 @@ class AdminController extends Controller
     }
 
     public function vehicle(){
-        return view('admin.vehicle');
+        $vehicles = Vehicle::all();
+        return view('admin.vehicle', compact('vehicles'));
+    }
+
+    public function searchVehicle(Request $request){
+        $vehicles = Vehicle::where('name', 'LIKE', '%' . $request->search . '%')->get();
+        return view('admin.vehicle', compact('vehicles'));
     }
 }

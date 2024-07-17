@@ -5,7 +5,7 @@
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
             <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent flex justify-between items-center">
-                <h6 class="dark:text-white">Add Driver</h6>
+                <h6 class="dark:text-white">Add Vehicle</h6>
             </div>
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-6">
@@ -20,15 +20,19 @@
                             </ul>
                         </div>
                         @endif
-                    <form method="POST" action="{{route('admin.store.driver')}}">
+                    <form method="POST" action="{{ route('admin.store.vehicle') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-slate-700 dark:text-white">Driver Name</label>
+                            <label for="name" class="block text-sm font-medium text-slate-700 dark:text-white">Name</label>
                             <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500">
                         </div>
                         <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium text-slate-700 dark:text-white">Type</label>
+                            <input type="text" id="type" name="type" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500">
+                        </div>
+                        <div class="mb-4">
                             <label for="license_number" class="block text-sm font-medium text-slate-700 dark:text-white">License Number</label>
-                            <input type="text" id="license_number" name="license_number" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500">
+                            <input type="text" id="vehicle_llicense" name="vehicle_llicense" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500">
                         </div>
                         <div class="mb-4">
                             <label for="status" class="block text-sm font-medium text-slate-700 dark:text-white">Status</label>
@@ -36,10 +40,15 @@
                                 <option value="">Choose Status</option>
                                 <option value="available">Available</option>
                                 <option value="not available">Not available</option>
+                                <option value="maintenance">Maintenance</option>
                             </select>
                         </div>
+                        <div class="mb-4">
+                              <label for="name" class="block text-sm font-medium text-slate-700 dark:text-white">Image</label>
+                              <input type="file" id="image" name="image" class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500">
+                          </div>
                         <div class="mb-4 flex justify-end">
-                            <button type="submit" class="bg-gradient-to-tl from-emerald-500 to-teal-400 text-white px-4 py-2 rounded-lg">Add Driver</button>
+                            <button type="submit" class="bg-gradient-to-tl from-emerald-500 to-teal-400 text-white px-4 py-2 rounded-lg">Add Vehicle</button>
                         </div>
                     </form>
                 </div>

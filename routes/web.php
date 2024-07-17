@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,10 @@ Route::prefix('admin')->middleware('auth')->group(function(){
     Route::get('/add-driver', [DriverController::class, "add"])->name('admin.add.driver');
     Route::post('/add-driver', [DriverController::class, "store"])->name('admin.store.driver');
     Route::get('/delete-driver/{id}', [DriverController::class, "delete"])->name('admin.delete.driver');
+    Route::get('/add-vehicle', [VehicleController::class, "add"])->name('admin.add.vehicle');
+    Route::post('/add-vehicle', [VehicleController::class, "store"])->name('admin.store.vehicle');
+    Route::get('/delete-vehicle/{id}', [VehicleController::class, "delete"])->name('admin.delete.vehicle');
+    Route::get('/search-vehicle', [AdminController::class, "searchVehicle"])->name('admin.search.vehicle');
     Route::get('/bookings', [AdminController::class, "booking"])->name('admin.booking');
     Route::get('/vehicles', [AdminController::class, "vehicle"])->name('admin.vehicle');
 });
