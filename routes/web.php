@@ -32,6 +32,8 @@ Route::prefix('admin')->middleware('auth')->group(function(){
     Route::get('/dashboard', [AdminController::class, "dashboard"])->name('admin.dashboard');
     Route::get('/drivers', [AdminController::class, "driver"])->name('admin.driver');
     Route::get('/add-driver', [DriverController::class, "add"])->name('admin.add.driver');
+    Route::post('/add-driver', [DriverController::class, "store"])->name('admin.store.driver');
+    Route::get('/delete-driver/{id}', [DriverController::class, "delete"])->name('admin.delete.driver');
     Route::get('/bookings', [AdminController::class, "booking"])->name('admin.booking');
     Route::get('/vehicles', [AdminController::class, "vehicle"])->name('admin.vehicle');
 });

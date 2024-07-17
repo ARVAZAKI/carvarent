@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('name');
-            $table->string('licence_number');
+            $table->string('license_number');
             $table->enum('status', ['available', 'not available'])->default('available');
             $table->timestamps();
         });

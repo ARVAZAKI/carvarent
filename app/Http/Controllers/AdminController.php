@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Driver;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -11,7 +12,8 @@ class AdminController extends Controller
     }
 
     public function driver(){
-        return view('admin.driver');
+        $drivers = Driver::all();
+        return view('admin.driver', compact('drivers'));
     }
 
     public function booking(){

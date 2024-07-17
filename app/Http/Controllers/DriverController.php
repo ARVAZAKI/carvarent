@@ -12,11 +12,26 @@ class DriverController extends Controller
     }
 
     public function store(Request $request){
-        Driver::create([
-            'name' => $request->name,
-            'licence_number' => $request->licence_number,
-            'status' => $request->status
-        ]);
-        return redirect()->route('admin.driver');
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'license_number' => 'required',
+        'status' => 'required|in:available,not available',
+    ]);
+
+    Driver::create([
+        'name' => $request->name,
+        'license_number' => $request->license_number,
+        'status' => $request->status,
+    ]);
+
+    return redirect()->route('admin.driver');
     }
+
+    public function delete($id){
+        $driver = Driver::findOrFail($id);
+        $driver->delete();
+
+        return redirect()->back();
+    }
+
 }

@@ -10,6 +10,6 @@ class Driver extends Model
 {
     use HasFactory, HasUuids;
     protected $fillable = [
-        'name','licence_number','status'
+        'name','license_number','status'
     ];
 }
