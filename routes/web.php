@@ -33,6 +33,7 @@ Route::get('/logout', [LoginController::class, "logout"])->name('logout');
 
 Route::prefix('admin')->middleware(['auth','only-admin'])->group(function(){
     Route::get('/dashboard', [AdminController::class, "dashboard"])->name('admin.dashboard');
+    Route::get('/tes', [AdminController::class, "chart"])->name('admin.chart');
 
     Route::get('/drivers', [AdminController::class, "driver"])->name('admin.driver');
     Route::get('/add-driver', [DriverController::class, "add"])->name('admin.add.driver');
@@ -48,9 +49,15 @@ Route::prefix('admin')->middleware(['auth','only-admin'])->group(function(){
 
 
     Route::get('/bookings', [AdminController::class, "booking"])->name('admin.booking');
+    Route::get('/detail-booking/{id}', [BookingController::class, "showdetail"])->name('admin.detail.booking');
     Route::get('/add-booking', [BookingController::class, "add"])->name('admin.add.booking');
     Route::post('/add-booking', [BookingController::class, "store"])->name('admin.store.booking');
     Route::get('/cancel-booking/{id}', [BookingController::class, "cancel"])->name('admin.cancel.booking');
+
+    Route::get('/return-booking/{id}', [AdminController::class, "returnBooking"])->name('admin.return.booking');
+    Route::post('/return-booking/{id}', [BookingController::class, "returnBooking"])->name('admin.return.booking.post');
+
+    Route::get('/export-excel', [BookingController::class, "export_excel"])->name('export-excel');
 });
 
 Route::prefix('approver')->middleware('auth')->group(function(){

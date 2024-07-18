@@ -29,18 +29,17 @@
                             </div>
                             <div>
                                 <p class="text-lg font-semibold">Admin: {{ $booking->admin->name }}</p>
-                            <p class="text-md text-gray-600">Email: {{ $booking->admin->email }}</p>
                             </div>
+                            <div>
+                              <p class="text-lg font-semibold">Approvers: </p>
+                              @foreach ($booking->approvers as $item)
+                              <p class="text-md text-gray-600">Name: {{ $item->name }}</p>
+                              @endforeach
+                            </div>
+                            <div>
+                              <p class="text-lg font-semibold">Distance Traveled: {{ $booking->usage->distance_traveled }} KM</p>
+                              <p class="text-lg font-semibold">Distance Traveled: {{ $booking->usage->return_date }}</p>
                         </div>
-                        <div class="flex justify-between">
-                              <form action="{{route('approver.acc.booking' , $booking->id)}}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="bg-gradient-to-tl from-emerald-500 to-teal-400 text-white px-4 py-2 rounded-lg m-3">ACC</button>
-                              </form>
-                              <form action="{{route('approver.reject.booking' , $booking->id)}}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="bg-blue-500 from-emerald-500 to-teal-400 text-white px-4 py-2 rounded-lg m-3">REJECT</button>
-                                </form>
                         </div>
                     </div>
                 </div>

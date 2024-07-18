@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportBooking;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Usage;
 use App\Models\Driver;
 use App\Models\Booking;
 use App\Models\Vehicle;
@@ -12,6 +14,8 @@ use Illuminate\Http\Request;
 use App\Models\ApproverBooking;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Exp;
 
 class BookingController extends Controller
 {
@@ -73,7 +77,7 @@ class BookingController extends Controller
     }
 
     public function acc($id){
-        $booking = Booking::findOrFail($id)->first();
+        $booking = Booking::findOrFail($id);
         $booking->level += 1;
         $booking->save();
         
@@ -100,7 +104,7 @@ class BookingController extends Controller
     
 
     public function reject($id){
-        $booking = Booking::findOrFail($id)->first();
+        $booking = Booking::findOrFail($id);
         $booking->status = 'rejected';
         $booking->save();
 
@@ -110,5 +114,56 @@ class BookingController extends Controller
 
         return redirect()->route('approver.dashboard');
     }
+
+    public function returnBooking(Request $request, $id)
+    {
+        $request->validate([
+            'distance_traveled' => 'required|numeric',
+            'return_date' => 'required|date',
+        ]);
+
+        $booking = Booking::with(['vehicle', 'driver'])->findOrFail($id);
+
+        $booking->status = 'expired';
+        $booking->save();
+
+        Usage::create([
+            'booking_id' => $booking->id,
+            'vehicle_id' => $booking->vehicle->id,
+            'distance_traveled' => $request->distance_traveled,
+            'return_date' => $request->return_date,
+            'input_by' => Auth::user()->id
+        ]);
+
+        Vehicle::where('id', $booking->vehicle->id)->update([
+            'status' => 'available'
+        ]);
+
+        Driver::where('id', $booking->driver->id)->update([
+            'status' => 'available'
+        ]);
+
+        return redirect()->route('admin.booking')->with('success', 'Booking returned successfully');
+    }
+
+
+    public function showdetail($id){
+        $booking = Booking::with(['vehicle','admin','approvers','usage','driver'])->find($id);
+        if ($booking) {
+            $vehicle = $booking->vehicle;
+            $admin = $booking->admin;
+            $approvers = $booking->approvers;
+            $usage = $booking->usage;
+            $driver = $booking->driver;
+        }
+        return view('admin.detail-booking', compact('booking','vehicle','admin','approvers','usage','driver'));
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new ExportBooking, 'bookings_report.xlsx');
+    }
+    
+
 
 }

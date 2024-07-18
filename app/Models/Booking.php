@@ -37,4 +37,10 @@ class Booking extends Model
     {
         return $this->belongsToMany(User::class, 'approver_bookings', 'booking_id', 'approver_id');
     }
+
+    
+    public function usage()
+    {
+        return $this->hasOne(Usage::class, 'booking_id', 'id');
+    }
 }
