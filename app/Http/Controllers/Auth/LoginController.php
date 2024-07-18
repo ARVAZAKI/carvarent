@@ -27,7 +27,7 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             } else if (Auth::user()->role == 'approver') {
                 Log::info('Approver logged in.', ['email' => $credentials['email']]);
-                dd('hai');
+              return redirect()->route('approver.dashboard');
             }
         } else {
             Log::warning('Login failed.', ['email' => $credentials['email']]);
@@ -47,7 +47,7 @@ class LoginController extends Controller
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect('/login');
+            return redirect()->route('login');
         } catch (\Exception $e) {
             Log::error('Error logout.', ['error' => $e->getMessage()]);
         }

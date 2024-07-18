@@ -27,6 +27,17 @@
                         <div class="flex flex-col w-full max-w-full px-3 mx-auto lg:mx-0 shrink-0 md:flex-0 md:w-7/12 lg:w-5/12 xl:w-4/12">
                             <div class="relative flex flex-col min-w-0 break-words bg-transparent border-0 shadow-none lg:py-4 dark:bg-gray-950 rounded-2xl bg-clip-border">
                                 <div class="p-6 pb-0 mb-0">
+                                    @if ($errors->any())
+                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">Oops!</strong>
+                            <span class="block sm:inline">There were some problems with your input.</span>
+                            <ul class="mt-2 list-disc list-inside text-sm text-red-700">
+                                @foreach ($errors->all() as $error)
+                                    <li>- {{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                                     <h4 class="font-bold">Sign In</h4>
                                     <p class="mb-0">Enter your email and password to sign in</p>
                                 </div>
