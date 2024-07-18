@@ -60,7 +60,7 @@ Route::prefix('admin')->middleware(['auth','only-admin'])->group(function(){
     Route::get('/export-excel', [BookingController::class, "export_excel"])->name('export-excel');
 });
 
-Route::prefix('approver')->middleware('auth')->group(function(){
+Route::prefix('approver')->middleware(['auth','only-approver'])->group(function(){
     Route::get('/dashboard', [ApproverController::class, "dashboard"])->name('approver.dashboard');
     Route::get('/detail-booking/{id}', [BookingController::class, "detail"])->name('approver.detail.booking');
     Route::post('/acc-booking/{id}', [BookingController::class, "acc"])->name('approver.acc.booking');
