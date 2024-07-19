@@ -37,8 +37,10 @@
                               @endforeach
                             </div>
                             <div>
+                            <p class="text-lg font-semibold">Start Date: {{ $booking->start_date }}</p>
+                            <p class="text-lg font-semibold">End Date: {{ $booking->end_date }}</p>
+                            <p class="text-lg font-semibold">Return Date: {{ $booking->usage->return_date }}</p>
                               <p class="text-lg font-semibold">Distance Traveled: {{ $booking->usage->distance_traveled }} KM</p>
-                              <p class="text-lg font-semibold">Distance Traveled: {{ $booking->usage->return_date }}</p>
                         </div>
                         </div>
                     </div>
